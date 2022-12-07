@@ -33,6 +33,7 @@ public:
     Matrix operator=(Matrix&& other);
     Matrix operator=(Matrix const& other);
     Matrix operator*(Matrix const& other);
+    Matrix transpose() const;
     Matrix(Matrix const& other);
     Matrix(Matrix&& other);
     friend std::ostream& operator<<(std::ostream& out, Matrix const& mat);

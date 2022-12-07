@@ -86,11 +86,23 @@ std::ostream& operator<<(std::ostream& out, Matrix const& mat)
     {
         for (int j = 0; j < mat.m; ++j)
         {
-            out << std::setw(5) << mat.array[i][j];
+            out << std::setw(8) << mat.array[i][j];
         }
         out << "\n";
     }
     return out;
+}
+Matrix Matrix::transpose() const
+{
+    Matrix res(m, n);
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < m; ++j)
+        {
+            res.array[j][i] = array[i][j];
+        }
+    }
+    return res;
 }
 Matrix Matrix::MatrixFactoryWithoutParameters(MatrixType type)
 {
@@ -98,17 +110,30 @@ Matrix Matrix::MatrixFactoryWithoutParameters(MatrixType type)
     switch(type)
     {
         case MatrixType::Dimetric:
-        ans.array[0][0] = 0.935;
-        ans.array[0][1] = -0.118;
+        /*ans.array[0][0] = 0.949;
+        ans.array[0][1] = -0.187;
         ans.array[0][2] = 0;
 
         ans.array[1][0] = 0;
-        ans.array[1][1] = 0.943;
+        ans.array[1][1] = 0.806;
         ans.array[1][2] = 0;
+
+        ans.array[2][0] = -0.316;
+        ans.array[2][1] = -0.562;
+        ans.array[2][2] = 0;*/
+        ans.array[0][0] = 0.935;
+        ans.array[0][1] = -0.118;
+        ans.array[0][2] = 0.333;
+
+        ans.array[1][0] = 0;
+        ans.array[1][1] = 0.943;
+        ans.array[1][2] = 0.333;
 
         ans.array[2][0] = -0.354;
         ans.array[2][1] = 0.312;
-        ans.array[2][2] = 0;
+        ans.array[2][2] = 0.882;
+
+        ans.array[3][3] = 1;
     }
     return ans;
 }
