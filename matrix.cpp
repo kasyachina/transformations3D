@@ -79,6 +79,19 @@ Matrix Matrix::operator*(Matrix const& other)
     }
     return res;
 }
+std::ostream& operator<<(std::ostream& out, Matrix const& mat)
+{
+    out << std::fixed << std::setprecision(3);
+    for (int i = 0; i < mat.n; ++i)
+    {
+        for (int j = 0; j < mat.m; ++j)
+        {
+            out << std::setw(5) << mat.array[i][j];
+        }
+        out << "\n";
+    }
+    return out;
+}
 Matrix Matrix::MatrixFactoryWithoutParameters(MatrixType type)
 {
     Matrix ans(4, 4);

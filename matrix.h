@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include <vector>
+#include <iostream>
+#include <iomanip>
 
 class Point
 {
@@ -10,6 +12,7 @@ public:
 private:
     double data[4];
 };
+
 
 class Matrix
 {
@@ -32,6 +35,7 @@ public:
     Matrix operator*(Matrix const& other);
     Matrix(Matrix const& other);
     Matrix(Matrix&& other);
+    friend std::ostream& operator<<(std::ostream& out, Matrix const& mat);
     ~Matrix();
 private:
     Matrix(int _n, int _m);
