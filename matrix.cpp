@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <cassert>
 
 
 Point::Point(double x, double y, double z)
@@ -58,6 +59,22 @@ Matrix Matrix::operator=(Matrix const& other)
     }
     return *this;
 }
+Matrix Matrix::operator*(Matrix const& other)
+{
+    assert(m == other.n);
+    Matrix res(n, other.m);
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < other.m; ++j)
+        {
+            for (int k = 0; k < m; ++k)
+            {
+                res.array[i][j] += array[i][k] * other.array[k][j];
+            }
+        }
+    }
+    return res;
+}
 Matrix Matrix::MatrixFactoryWithoutParameters(MatrixType type)
 {
     Matrix ans(4, 4);
@@ -86,6 +103,13 @@ void Matrix::AllocateMemory(int _n, int _m)
     for (int i = 0; i < n; ++i)
     {
         array[i] = new double[m];
+    }
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < m; ++j)
+        {
+            array[i][j] = 0;
+        }
     }
 }
 void Matrix::FreeMemory()
