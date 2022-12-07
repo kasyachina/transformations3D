@@ -21,7 +21,7 @@ public:
         ProjectionOXY,
         ProjectionOXZ,
         ProjectionOYZ,
-        Aksonometric,
+        Dimetric,
     };
     static Matrix MatrixFactoryWithoutParameters(MatrixType type);
     static Matrix MatrixFactoryWithParameters(MatrixType type, std::vector<double> const& params);
@@ -29,9 +29,14 @@ public:
     Matrix operator=(Matrix&& other);
     Matrix operator=(Matrix const& other);
     Matrix operator*=(Matrix const& other);
+    Matrix(Matrix const& other);
+    Matrix(Matrix&& other);
     ~Matrix();
 private:
     Matrix(int _n, int _m);
+    void FreeMemory();
+    void AllocateMemory(int n, int m);
+    void CopyValues(Matrix const& other);
     double **array;
     int n, m;
 };
