@@ -6,6 +6,7 @@ class Point
 {
 public:
     Point(double x, double y, double z);
+    double getParameter(int index) const;
 private:
     double data[4];
 };

@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     g -> addWidget(area);
     centralWidget()->setLayout(g);
     Matrix mat = Matrix::MatrixFactoryWithoutParameters(Matrix::MatrixType::Dimetric);
+    Matrix axes = Matrix::ComposeFromPoints({Point(0, 0, 5), Point(0, 5, 0), Point(5, 0, 0)});
 }
 
 MainWindow::~MainWindow()

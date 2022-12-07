@@ -9,6 +9,10 @@ Point::Point(double x, double y, double z)
     data[2] = z;
     data[3] = 1;
 }
+double Point::getParameter(int index) const
+{
+    return data[index];
+}
 Matrix::Matrix(int _n, int _m)
 {
     AllocateMemory(_n, _m);
@@ -94,6 +98,20 @@ Matrix Matrix::MatrixFactoryWithoutParameters(MatrixType type)
         ans.array[2][2] = 0;
     }
     return ans;
+}
+Matrix Matrix::ComposeFromPoints(std::vector<Point> const& points)
+{
+    int n = 4;
+    int m = points.size();
+    Matrix res(n, m);
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < m; ++j)
+        {
+            res.array[i][j] = points[j].getParameter(i);
+        }
+    }
+    return res;
 }
 void Matrix::AllocateMemory(int _n, int _m)
 {
