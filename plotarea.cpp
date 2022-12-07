@@ -146,11 +146,6 @@ void PlotArea::drawArrows(QPainter& p)
 }
 void PlotArea::drawLineSegments(QPainter& p)
 {
-    if (segments.empty())
-    {
-        QMessageBox::warning(nullptr, "Ошибка", "Нет ни одного отрезка");
-        return;
-    }
     for (const auto& segmentData : segments)
     {
         p.setPen(QPen(segmentData.color(), line_width));
@@ -160,6 +155,10 @@ void PlotArea::drawLineSegments(QPainter& p)
 void PlotArea::Clear()
 {
     segments.clear();
+}
+void PlotArea::AddLineSegment(const LineSegmentData& data)
+{
+    segments.push_back(data);
 }
 void PlotArea::paintEvent(QPaintEvent*)
 {

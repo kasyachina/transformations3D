@@ -28,7 +28,7 @@ public:
     static Matrix ComposeFromPoints(std::vector<Point> const& points);
     Matrix operator=(Matrix&& other);
     Matrix operator=(Matrix const& other);
-    Matrix operator*=(Matrix const& other);
+    Matrix operator*(Matrix const& other);
     Matrix(Matrix const& other);
     Matrix(Matrix&& other);
     ~Matrix();
