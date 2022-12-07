@@ -4,7 +4,10 @@
 
 class Point
 {
-
+public:
+    Point(double x, double y, double z);
+private:
+    double data[4];
 };
 
 class Matrix
@@ -26,9 +29,11 @@ public:
     Matrix operator=(Matrix&& other);
     Matrix operator=(Matrix const& other);
     Matrix operator*=(Matrix const& other);
+    ~Matrix();
 private:
-    Matrix(int n, int m);
-    double **a;
+    Matrix(int _n, int _m);
+    double **array;
+    int n, m;
 };
 
 #endif // MATRIX_H
