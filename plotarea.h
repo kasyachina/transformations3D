@@ -42,6 +42,9 @@ private:
     std::vector<Point> axis;
     Matrix AksonometricMatrix;
     int u; // unit size
+    int min_unit = 5;
+    int max_unit = 40;
+    int delta_unit = 1;
     double tick_length = 1;
     int grid_line_width = 1;
     int axis_width = 2;
@@ -70,6 +73,7 @@ private:
     virtual void mousePressEvent(QMouseEvent* event) override;
     virtual void mouseReleaseEvent(QMouseEvent* event) override;
     virtual void mouseMoveEvent(QMouseEvent* event) override;
+    virtual void wheelEvent(QWheelEvent* event) override;
 };
 
 #endif // PLOTAREA_H

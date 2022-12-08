@@ -263,11 +263,20 @@ void PlotArea::mouseReleaseEvent(QMouseEvent* event)
 {
     mousePressed = false;
 }
+void PlotArea::wheelEvent(QWheelEvent* event)
+{
+    qDebug() << event->angleDelta();
+    SetUnit(u + delta_unit * (2 * (event->angleDelta().y() > 0) - 1));
+    repaint();
+}
 int PlotArea::getUnit() const
 {
     return u;
 }
 void PlotArea::SetUnit(int nu)
 {
-      u = nu;
+    if (nu >= min_unit && nu <= max_unit)
+    {
+        u = nu;
+    }
 }
