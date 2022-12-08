@@ -8,7 +8,6 @@
 #include <QFormLayout>
 #include <QDialogButtonBox>
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -30,10 +29,13 @@ MainWindow::MainWindow(QWidget *parent)
     g -> addWidget(ui -> OZRight,                  6, 9, 1, 1);
     g -> addWidget(ui -> ScaleButton,              7, 8, 1, 2);
     g -> addWidget(ui -> TranslateButton,          8, 8, 1, 2);
-    g -> addWidget(ui -> ProjectionButton,         9, 8, 1, 2);
-    g -> addWidget(ui -> RevertButton,             10, 8, 1, 2);
-    g -> addWidget(ui -> TransformationMatrixLabel, 11, 8, 1, 2);
-    g -> addWidget(ui -> TransformationMatrix,     12, 8, 1, 2);
+    g -> addWidget(ui -> ProjectionOXY,            9, 8, 1, 2);
+    g -> addWidget(ui -> ProjectionOXZ,            10, 8, 1, 2);
+    g -> addWidget(ui -> ProjectionOYZ,            11, 8, 1, 2);
+    g -> addWidget(ui -> RevertProjection,         12, 8, 1, 2);
+    g -> addWidget(ui -> RevertButton,             13, 8, 1, 2);
+    g -> addWidget(ui -> TransformationMatrixLabel, 14, 8, 1, 2);
+    g -> addWidget(ui -> TransformationMatrix,     15, 8, 1, 2);
     UpdateTransformationMatrix();
     centralWidget()->setLayout(g);
     area -> SetFigurePoints(
@@ -107,12 +109,15 @@ void MainWindow::on_ScaleButton_clicked()
     QLineEdit *edits[3];
     QDoubleValidator *val = new QDoubleValidator(-5, 5, 2);
     val -> setNotation(QDoubleValidator::StandardNotation);
+    d -> setStyleSheet("background-color: white");
     QGridLayout *l = new QGridLayout(d);
     for (int i = 0; i < 3; ++i)
     {
         labels[i] = new QLabel("Масштабирование по " + prompts[i]);
         edits[i] = new QLineEdit("1");
         edits[i] -> setValidator(val);
+        labels[i] -> setStyleSheet("color: black");
+        edits[i] -> setStyleSheet("color: black");
         l -> addWidget(labels[i], i, 0, 1, 1);
         l -> addWidget(edits[i], i, 1, 1, 1);
     }
@@ -173,12 +178,15 @@ void MainWindow::on_TranslateButton_clicked()
     QLineEdit *edits[3];
     QDoubleValidator *val = new QDoubleValidator(-9, 9, 2);
     val -> setNotation(QDoubleValidator::StandardNotation);
+    d -> setStyleSheet("background-color: white");
     QGridLayout *l = new QGridLayout(d);
     for (int i = 0; i < 3; ++i)
     {
         labels[i] = new QLabel("Перенос по " + prompts[i]);
         edits[i] = new QLineEdit("0");
         edits[i] -> setValidator(val);
+        labels[i] -> setStyleSheet("color: black");
+        edits[i] -> setStyleSheet("color: black");
         l -> addWidget(labels[i], i, 0, 1, 1);
         l -> addWidget(edits[i], i, 1, 1, 1);
     }
@@ -214,5 +222,77 @@ void MainWindow::on_TranslateButton_clicked()
     delete buttonBox;
     delete d;
     delete val;
+}
+
+
+/*void MainWindow::on_ProjectionButton_clicked()
+{
+    QDialog *d = new QDialog;
+    QLabel *labels[3];
+    PlotArea *areas[3];
+    // f - OXY, h - OXZ, p - OYZ
+    QString prompts[3] = {"Фронтальная", "Горизонтальная", "Профильная"};
+    d -> setStyleSheet("background-color: white");
+    for (int i = 0; i < 3; ++i)
+    {
+        labels[i] = new QLabel(prompts[i] + " проекция:");
+        labels[i] -> setStyleSheet("color: black");
+        areas[i] = new PlotArea();
+        areas[i] -> SetRotatable(false);
+    }
+    areas[0] -> SetRotation(0, -M_PI / 2, 0);
+    areas[1] -> SetRotation(M_PI / 2, 0, 0);
+    QGridLayout *g = new QGridLayout(d);
+    g -> addWidget(labels[0], 0, 0, 1, 1);
+    g -> addWidget(labels[1], 0, 4, 1, 1);
+    g -> addWidget(labels[2], 0, 8, 1, 1);
+    g -> addWidget(areas[0], 1, 0, 4, 4);
+    g -> addWidget(areas[1], 1, 4, 4, 4);
+    g -> addWidget(areas[2], 1, 8, 4, 4);
+    d -> exec();
+    for (int i = 0; i < 3; ++i)
+    {
+        delete labels[i];
+        delete areas[i];
+        labels[i] = nullptr;
+        areas[i] = nullptr;
+    }
+    delete g;
+    delete d;
+}*/
+
+
+void MainWindow::on_ProjectionOXY_clicked()
+{
+    area -> RevertProjection();
+    area -> ProjectFigure(Matrix::ProjectionType::ProjectionOXY);
+    UpdateTransformationMatrix();
+    area -> repaint();
+}
+
+
+void MainWindow::on_ProjectionOXZ_clicked()
+{
+    area -> RevertProjection();
+    area -> ProjectFigure(Matrix::ProjectionType::ProjectionOXZ);
+    UpdateTransformationMatrix();
+    area -> repaint();
+}
+
+
+void MainWindow::on_ProjectionOYZ_clicked()
+{
+    area -> RevertProjection();
+    area -> ProjectFigure(Matrix::ProjectionType::ProjectionOYZ);
+    UpdateTransformationMatrix();
+    area -> repaint();
+}
+
+
+void MainWindow::on_RevertProjection_clicked()
+{
+    area -> RevertProjection();
+    UpdateTransformationMatrix();
+    area -> repaint();
 }
 

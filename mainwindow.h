@@ -36,6 +36,14 @@ private slots:
 
     void on_TranslateButton_clicked();
 
+    void on_ProjectionOXY_clicked();
+
+    void on_ProjectionOXZ_clicked();
+
+    void on_ProjectionOYZ_clicked();
+
+    void on_RevertProjection_clicked();
+
 private:
     Ui::MainWindow *ui;
     PlotArea *area = nullptr;

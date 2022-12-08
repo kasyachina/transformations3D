@@ -228,30 +228,17 @@ QPushButton{color: black}</string>
      <string>Перенос</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ProjectionButton">
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>330</y>
-      <width>106</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Проекции</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="RevertButton">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>370</y>
+      <x>650</x>
+      <y>420</y>
       <width>106</width>
       <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Сброс</string>
+     <string>Отменить преобразования</string>
     </property>
    </widget>
    <widget class="QLabel" name="TransformationMatrixLabel">
@@ -278,6 +265,58 @@ QPushButton{color: black}</string>
     </property>
     <property name="text">
      <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ProjectionOXY">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>310</y>
+      <width>106</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Фронтальная проекция</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ProjectionOXZ">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>330</y>
+      <width>106</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Горизонтальная проекция</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ProjectionOYZ">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>360</y>
+      <width>106</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Профильная проекция</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RevertProjection">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>340</y>
+      <width>106</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Отменить проецирование</string>
     </property>
    </widget>
   </widget>

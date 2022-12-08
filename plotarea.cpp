@@ -5,12 +5,17 @@
 #include <QMouseEvent>
 
 PlotArea::PlotArea(QWidget *parent):QWidget(parent),
-    AksonometricMatrix(Matrix::GetAksonometricMatrix(angleX, angleY, angleZ)), TransformationMatrix(Matrix::GetIdentityMatrix())
+    AksonometricMatrix(Matrix::GetAksonometricMatrix(angleX, angleY, angleZ)), TransformationMatrix(Matrix::GetIdentityMatrix()),
+    ProjectionMatrix(Matrix::GetIdentityMatrix())
 {
     u = std::min(width(), height()) / 20;
     recalculateAxis();
 }
 
+void PlotArea::SetRotatable(bool newRotatable)
+{
+    isRotatable = newRotatable;
+}
 void PlotArea::recalculateAxis()
 {
     axis = Matrix::DecomposeToPoints(AksonometricMatrix * Matrix::ComposeFromPoints({Point(1, 0, 0), Point(0, 1, 0), Point(0, 0, 1)}));
@@ -178,7 +183,7 @@ void PlotArea::drawFigure(QPainter& p)
 {
     if (!figure.empty())
     {
-        std::vector<Point> toDraw = Matrix::DecomposeToPoints(TransformationMatrix * Matrix::ComposeFromPoints(figure));
+        std::vector<Point> toDraw = Matrix::DecomposeToPoints(ProjectionMatrix * TransformationMatrix * Matrix::ComposeFromPoints(figure));
         QPainterPath ph1;
         QPainterPath ph2;
         p.setPen(QPen(Qt::black, line_width));
@@ -201,13 +206,21 @@ void PlotArea::TransformFigure(Matrix const& transform)
 {
     TransformationMatrix = transform * TransformationMatrix;
 }
+void PlotArea::ProjectFigure(Matrix::ProjectionType type)
+{
+    ProjectionMatrix = Matrix::GetProjectionMatrix(type);
+}
+void PlotArea::RevertProjection()
+{
+    ProjectionMatrix = Matrix::GetIdentityMatrix();
+}
 void PlotArea::ResetTransform()
 {
     TransformationMatrix = Matrix::GetIdentityMatrix();
 }
 Matrix PlotArea::GetTransformationMatrix() const
 {
-    return TransformationMatrix;
+    return ProjectionMatrix * TransformationMatrix;
 }
 void PlotArea::SetFigurePoints(const std::vector<Point>& data)
 {
@@ -238,7 +251,7 @@ void PlotArea::mousePressEvent(QMouseEvent* event)
 }
 void PlotArea::mouseMoveEvent(QMouseEvent* event)
 {
-    if (mousePressed)
+    if (mousePressed && isRotatable)
     {
         QPointF pos = event->position();
         double deltaX = pos.x() - lastMousePos.x();
@@ -248,6 +261,12 @@ void PlotArea::mouseMoveEvent(QMouseEvent* event)
         lastMousePos = pos;
         repaint();
     }
+}
+void PlotArea::SetRotation(double _angleX, double _angleY, double _angleZ)
+{
+    angleX = _angleX;
+    angleY = _angleY;
+    angleZ = _angleZ;
 }
 void PlotArea::mouseReleaseEvent(QMouseEvent*)
 {

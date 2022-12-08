@@ -13,13 +13,18 @@ public:
     explicit PlotArea(QWidget *parent = nullptr);
     void SetFigurePoints(const std::vector<Point>& data);
     void TransformFigure(Matrix const& transform);
+    void ProjectFigure(Matrix::ProjectionType type);
+    void RevertProjection();
     void ResetTransform();
+    void SetRotatable(bool newRotatable);
+    void SetRotation(double _angleX, double _angleY, double _angleZ);
     Matrix GetTransformationMatrix() const;
     QPointF Adjust(const Point& p);
     void Clear();
     void SetUnit(int nu);
     int getUnit() const;
 private:
+    bool isRotatable = true;
     bool mousePressed = false;
     QPointF lastMousePos;
     double angleX = 19.47 / 180 * 3.14;
@@ -27,7 +32,7 @@ private:
     double angleZ = 0;
     double angleShift = 0.005;
     std::vector<Point> axis;
-    Matrix AksonometricMatrix, TransformationMatrix;
+    Matrix AksonometricMatrix, TransformationMatrix, ProjectionMatrix;
     int u; // unit size
     int min_unit = 5;
     int max_unit = 40;
