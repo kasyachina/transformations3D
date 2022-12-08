@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QMessageBox>
+#include <QMouseEvent>
 
 LineSegmentData::LineSegmentData(const QPointF& p1, const QPointF& p2, const QColor& color)
 {
@@ -172,12 +173,36 @@ void PlotArea::paintEvent(QPaintEvent*)
     zx = width() / 2;
     zy = height() / 2;
     QPainter pt(this);
+    AksonometricMatrix = Matrix::GetAksonometricMatrix(angleX, angleY, angleZ);
     drawBox(pt);
     drawAxis(pt);
+
     //drawTicks(pt);
     //drawArrows(pt);
     //drawGrid(pt);
     //drawLineSegments(pt);
+}
+void PlotArea::mousePressEvent(QMouseEvent* event)
+{
+    lastMousePos = event->position();
+    mousePressed = true;
+}
+void PlotArea::mouseMoveEvent(QMouseEvent* event)
+{
+    if (mousePressed)
+    {
+        QPointF pos = event->position();
+        double deltaX = pos.x() - lastMousePos.x();
+        double deltaY = pos.y() - lastMousePos.y();
+        angleY += angleShift * deltaX;
+        angleX += angleShift * deltaY;
+        lastMousePos = pos;
+        repaint();
+    }
+}
+void PlotArea::mouseReleaseEvent(QMouseEvent* event)
+{
+    mousePressed = false;
 }
 int PlotArea::getUnit() const
 {
