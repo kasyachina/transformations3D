@@ -17,8 +17,22 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_OXLeft_clicked();
+
+    void on_OXRight_clicked();
+
+    void on_OYLeft_clicked();
+
+    void on_OYRight_clicked();
+
+    void on_OZLeft_clicked();
+
+    void on_OZRight_clicked();
+
 private:
     Ui::MainWindow *ui;
     PlotArea *area = nullptr;
+    double rotationAngle = 0.15;
 };
 #endif // MAINWINDOW_H

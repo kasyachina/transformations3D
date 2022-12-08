@@ -39,3 +39,45 @@ MainWindow::~MainWindow()
     delete area;
 }
 
+
+void MainWindow::on_OXLeft_clicked()
+{
+    area -> TransformFigure(Matrix::GetRotationMatrix(Matrix::RotationType::RotationOX, -rotationAngle));
+    area -> repaint();
+}
+
+
+void MainWindow::on_OXRight_clicked()
+{
+    area -> TransformFigure(Matrix::GetRotationMatrix(Matrix::RotationType::RotationOX, rotationAngle));
+    area -> repaint();
+}
+
+
+void MainWindow::on_OYLeft_clicked()
+{
+    area -> TransformFigure(Matrix::GetRotationMatrix(Matrix::RotationType::RotationOY, -rotationAngle));
+    area -> repaint();
+}
+
+
+void MainWindow::on_OYRight_clicked()
+{
+    area -> TransformFigure(Matrix::GetRotationMatrix(Matrix::RotationType::RotationOY, rotationAngle));
+    area -> repaint();
+}
+
+
+void MainWindow::on_OZLeft_clicked()
+{
+    area -> TransformFigure(Matrix::GetRotationMatrix(Matrix::RotationType::RotationOZ, -rotationAngle));
+    area -> repaint();
+}
+
+
+void MainWindow::on_OZRight_clicked()
+{
+    area -> TransformFigure(Matrix::GetRotationMatrix(Matrix::RotationType::RotationOZ, rotationAngle));
+    area -> repaint();
+}
+
