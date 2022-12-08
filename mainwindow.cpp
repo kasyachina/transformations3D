@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     g -> addWidget(ui -> TransformationMatrix,     15, 8, 1, 2);
     UpdateTransformationMatrix();
     centralWidget()->setLayout(g);
+    setMinimumSize(600, 600);
+    setWindowTitle("Преобразования 3д объектов");
     area -> SetFigurePoints(
     {Point(1, 1, 0), Point(1, 5, 0), Point(2, 5, 0), Point(2, 4, 0), Point(3.5, 5, 0), Point(5, 5, 0), Point(2, 3, 0),
      Point(5, 1, 0), Point(3.5, 1, 0), Point(2, 2, 0), Point(2, 1, 0), Point(1, 1, 0),
