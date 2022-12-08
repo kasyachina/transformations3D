@@ -30,6 +30,15 @@ QPushButton{color: black}</string>
     <property name="text">
      <string>&gt;</string>
     </property>
+    <property name="autoRepeat">
+     <bool>true</bool>
+    </property>
+    <property name="autoRepeatDelay">
+     <number>100</number>
+    </property>
+    <property name="autoRepeatInterval">
+     <number>30</number>
+    </property>
    </widget>
    <widget class="QPushButton" name="OXLeft">
     <property name="geometry">
@@ -42,6 +51,15 @@ QPushButton{color: black}</string>
     </property>
     <property name="text">
      <string>&lt;</string>
+    </property>
+    <property name="autoRepeat">
+     <bool>true</bool>
+    </property>
+    <property name="autoRepeatDelay">
+     <number>100</number>
+    </property>
+    <property name="autoRepeatInterval">
+     <number>30</number>
     </property>
    </widget>
    <widget class="QLabel" name="RotationLabel">
@@ -82,6 +100,15 @@ QPushButton{color: black}</string>
     <property name="text">
      <string>&gt;</string>
     </property>
+    <property name="autoRepeat">
+     <bool>true</bool>
+    </property>
+    <property name="autoRepeatDelay">
+     <number>100</number>
+    </property>
+    <property name="autoRepeatInterval">
+     <number>30</number>
+    </property>
    </widget>
    <widget class="QPushButton" name="OYLeft">
     <property name="geometry">
@@ -94,6 +121,15 @@ QPushButton{color: black}</string>
     </property>
     <property name="text">
      <string>&lt;</string>
+    </property>
+    <property name="autoRepeat">
+     <bool>true</bool>
+    </property>
+    <property name="autoRepeatDelay">
+     <number>100</number>
+    </property>
+    <property name="autoRepeatInterval">
+     <number>30</number>
     </property>
    </widget>
    <widget class="QLabel" name="OY">
@@ -121,6 +157,15 @@ QPushButton{color: black}</string>
     <property name="text">
      <string>&gt;</string>
     </property>
+    <property name="autoRepeat">
+     <bool>true</bool>
+    </property>
+    <property name="autoRepeatDelay">
+     <number>100</number>
+    </property>
+    <property name="autoRepeatInterval">
+     <number>30</number>
+    </property>
    </widget>
    <widget class="QLabel" name="OZ">
     <property name="geometry">
@@ -146,6 +191,15 @@ QPushButton{color: black}</string>
     </property>
     <property name="text">
      <string>&lt;</string>
+    </property>
+    <property name="autoRepeat">
+     <bool>true</bool>
+    </property>
+    <property name="autoRepeatDelay">
+     <number>100</number>
+    </property>
+    <property name="autoRepeatInterval">
+     <number>30</number>
     </property>
    </widget>
    <widget class="QPushButton" name="ScaleButton">
@@ -185,6 +239,19 @@ QPushButton{color: black}</string>
     </property>
     <property name="text">
      <string>Проекции</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RevertButton">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>400</y>
+      <width>106</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Сброс</string>
     </property>
    </widget>
   </widget>

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QGridLayout>
 #include <cmath>
+#include <QDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     g -> addWidget(ui -> ScaleButton,       7, 8, 1, 2);
     g -> addWidget(ui -> TranslateButton,   8, 8, 1, 2);
     g -> addWidget(ui -> ProjectionButton,  9, 8, 1, 2);
+    g -> addWidget(ui -> RevertButton,      10, 8, 1, 2);
     centralWidget()->setLayout(g);
     area -> SetFigurePoints(
     {Point(1, 1, 0), Point(1, 5, 0), Point(2, 5, 0), Point(2, 4, 0), Point(3.5, 5, 0), Point(5, 5, 0), Point(2, 3, 0),
@@ -79,5 +81,11 @@ void MainWindow::on_OZRight_clicked()
 {
     area -> TransformFigure(Matrix::GetRotationMatrix(Matrix::RotationType::RotationOZ, rotationAngle));
     area -> repaint();
+}
+
+
+void MainWindow::on_ScaleButton_clicked()
+{
+
 }
 

@@ -25,7 +25,7 @@ private:
     double angleZ = 0;
     double angleShift = 0.005;
     std::vector<Point> axis;
-    Matrix AksonometricMatrix;
+    Matrix AksonometricMatrix, TransformationMatrix;
     int u; // unit size
     int min_unit = 5;
     int max_unit = 40;

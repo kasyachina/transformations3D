@@ -4,7 +4,8 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 
-PlotArea::PlotArea(QWidget *parent):QWidget(parent), AksonometricMatrix(Matrix::GetAksonometricMatrix(angleX, angleY, angleZ))
+PlotArea::PlotArea(QWidget *parent):QWidget(parent),
+    AksonometricMatrix(Matrix::GetAksonometricMatrix(angleX, angleY, angleZ)), TransformationMatrix(Matrix::GetIdentityMatrix())
 {
     u = std::min(width(), height()) / 20;
     recalculateAxis();
@@ -176,19 +177,20 @@ void PlotArea::drawFigure(QPainter& p)
 {
     if (!figure.empty())
     {
+        std::vector<Point> toDraw = Matrix::DecomposeToPoints(TransformationMatrix * Matrix::ComposeFromPoints(figure));
         QPainterPath ph1;
         QPainterPath ph2;
         p.setPen(QPen(Qt::black, line_width));
         p.setBrush(Qt::NoBrush);
-        int shift = figure.size() / 2;
-        ph1.moveTo(Adjust(figure[0]));
-        ph2.moveTo(Adjust(figure[shift]));
-        p.drawLine(Adjust(figure[0]), Adjust(figure[0 + shift]));
-        for (size_t i = 1; i < figure.size() / 2; ++i)
+        int shift = toDraw.size() / 2;
+        ph1.moveTo(Adjust(toDraw[0]));
+        ph2.moveTo(Adjust(toDraw[shift]));
+        p.drawLine(Adjust(toDraw[0]), Adjust(toDraw[0 + shift]));
+        for (size_t i = 1; i < toDraw.size() / 2; ++i)
         {
-            ph1.lineTo(Adjust(figure[i]));
-            ph2.lineTo(Adjust(figure[i + shift]));
-            p.drawLine(Adjust(figure[i]), Adjust(figure[i + shift]));
+            ph1.lineTo(Adjust(toDraw[i]));
+            ph2.lineTo(Adjust(toDraw[i + shift]));
+            p.drawLine(Adjust(toDraw[i]), Adjust(toDraw[i + shift]));
         }
         p.drawPath(ph1);
         p.drawPath(ph2);
@@ -196,7 +198,7 @@ void PlotArea::drawFigure(QPainter& p)
 }
 void PlotArea::TransformFigure(Matrix const& transform)
 {
-    figure = Matrix::DecomposeToPoints(transform * Matrix::ComposeFromPoints(figure));
+    TransformationMatrix = transform * TransformationMatrix;
 }
 void PlotArea::SetFigurePoints(const std::vector<Point>& data)
 {

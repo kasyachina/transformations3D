@@ -30,6 +30,8 @@ private slots:
 
     void on_OZRight_clicked();
 
+    void on_ScaleButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     PlotArea *area = nullptr;

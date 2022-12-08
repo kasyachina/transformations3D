@@ -37,6 +37,7 @@ public:
     static Matrix GetScaleMatrix(double scaleX, double scaleY, double scaleZ);
     static Matrix GetRotationMatrix(RotationType type, double angle);
     static Matrix GetTranslationMatrix(double translateX, double translateY, double translateZ);
+    static Matrix GetIdentityMatrix();
     static Matrix ComposeFromPoints(std::vector<Point> const& points);
     static std::vector<Point> DecomposeToPoints(Matrix const& matr);
     Matrix operator=(Matrix&& other);

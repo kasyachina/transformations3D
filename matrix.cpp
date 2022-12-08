@@ -175,7 +175,15 @@ Matrix Matrix::GetAksonometricMatrix(double angleX, double angleY, double angleZ
     res.array[3][3] = 1;
     return res;
 }
-
+Matrix Matrix::GetIdentityMatrix()
+{
+    Matrix res(4,4);
+    res.array[0][0] = 1;
+    res.array[1][1] = 1;
+    res.array[2][2] = 1;
+    res.array[3][3] = 1;
+    return res;
+}
 Matrix Matrix::ComposeFromPoints(std::vector<Point> const& points)
 {
     int n = 4;
