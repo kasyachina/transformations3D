@@ -21,7 +21,7 @@ private:
 class Matrix
 {
 public:
-    enum class MatrixType
+    enum class ProjectionType
     {
         ProjectionOXY,
         ProjectionOXZ,
@@ -33,7 +33,7 @@ public:
         RotationOY,
         RotationOZ,
     };
-    static Matrix GetProjectionMatrix(MatrixType type);
+    static Matrix GetProjectionMatrix(ProjectionType type);
     static Matrix GetAksonometricMatrix(double angleX, double angleY, double angleZ);
     static Matrix GetScaleMatrix(double scaleX, double scaleY, double scaleZ);
     static Matrix GetRotationMatrix(RotationType type, double angle);

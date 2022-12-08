@@ -113,9 +113,25 @@ Matrix Matrix::transpose() const
     }
     return res;
 }
-Matrix Matrix::GetProjectionMatrix(MatrixType type)
+Matrix Matrix::GetProjectionMatrix(ProjectionType type)
 {
-    //todo
+    Matrix res(4, 4);
+    switch (type)
+    {
+    case ProjectionType::ProjectionOXY:
+        res.array[0][0] = 1;
+        res.array[1][1] = 1;
+        break;
+    case ProjectionType::ProjectionOXZ:
+        res.array[0][0] = 1;
+        res.array[2][2] = 1;
+        break;
+    case ProjectionType::ProjectionOYZ:
+        res.array[1][1] = 1;
+        res.array[2][2] = 1;
+    }
+    res.array[3][3] = 1;
+    return res;
 }
 Matrix Matrix::GetScaleMatrix(double scaleX, double scaleY, double scaleZ)
 {

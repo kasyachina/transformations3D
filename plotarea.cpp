@@ -94,6 +94,7 @@ void PlotArea::drawAxis(QPainter& p)
 
     QPen axisPen(XColor);
     axisPen.setWidth(axis_width);
+
     p.setPen(axisPen);
     p.drawLine(Adjust(Point(-axis_length, 0, 0)), Adjust(Point(axis_length, 0, 0)));
 
