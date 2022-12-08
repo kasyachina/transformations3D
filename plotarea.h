@@ -13,6 +13,7 @@ public:
     explicit PlotArea(QWidget *parent = nullptr);
     void SetFigurePoints(const std::vector<Point>& data);
     void TransformFigure(Matrix const& transform);
+    void ResetTransform();
     QPointF Adjust(const Point& p);
     void Clear();
     void SetUnit(int nu);

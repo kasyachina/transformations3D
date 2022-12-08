@@ -89,3 +89,10 @@ void MainWindow::on_ScaleButton_clicked()
 
 }
 
+
+void MainWindow::on_RevertButton_clicked()
+{
+    area -> ResetTransform();
+    area -> repaint();
+}
+

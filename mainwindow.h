@@ -32,6 +32,8 @@ private slots:
 
     void on_ScaleButton_clicked();
 
+    void on_RevertButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     PlotArea *area = nullptr;

@@ -200,6 +200,10 @@ void PlotArea::TransformFigure(Matrix const& transform)
 {
     TransformationMatrix = transform * TransformationMatrix;
 }
+void PlotArea::ResetTransform()
+{
+    TransformationMatrix = Matrix::GetIdentityMatrix();
+}
 void PlotArea::SetFigurePoints(const std::vector<Point>& data)
 {
     figure = data;
