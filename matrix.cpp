@@ -123,7 +123,7 @@ Matrix Matrix::GetScaleMatrix(double scaleX, double scaleY, double scaleZ)
     res.array[0][0] = scaleX;
     res.array[1][1] = scaleY;
     res.array[2][2] = scaleZ;
-    res.array[1][1] = 1;
+    res.array[3][3] = 1;
     return res;
 }
 Matrix Matrix::GetRotationMatrix(RotationType type, double angle)
