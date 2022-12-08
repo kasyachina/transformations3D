@@ -177,7 +177,7 @@ void MainWindow::on_TranslateButton_clicked()
     for (int i = 0; i < 3; ++i)
     {
         labels[i] = new QLabel("Перенос по " + prompts[i]);
-        edits[i] = new QLineEdit("1");
+        edits[i] = new QLineEdit("0");
         edits[i] -> setValidator(val);
         l -> addWidget(labels[i], i, 0, 1, 1);
         l -> addWidget(edits[i], i, 1, 1, 1);
@@ -196,7 +196,7 @@ void MainWindow::on_TranslateButton_clicked()
             translations[i] = edits[i]->text().replace(',', '.').toDouble(&ok);
             if (!ok)
             {
-                translations[i] = 1;
+                translations[i] = 0;
             }
         }
         area -> TransformFigure(Matrix::GetTranslationMatrix(translations[0], translations[1], translations[2]));
