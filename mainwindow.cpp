@@ -3,6 +3,11 @@
 #include <QGridLayout>
 #include <cmath>
 #include <QDialog>
+#include <QDoubleValidator>
+#include <QLineEdit>
+#include <QFormLayout>
+#include <QDialogButtonBox>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -95,7 +100,53 @@ void MainWindow::on_OZRight_clicked()
 
 void MainWindow::on_ScaleButton_clicked()
 {
-
+    QDialog *d = new QDialog();
+    QString prompts[3] = {"x", "y", "z"};
+    QLabel *labels[3];
+    QLineEdit *edits[3];
+    QDoubleValidator *val = new QDoubleValidator(-5, 5, 2);
+    val -> setNotation(QDoubleValidator::StandardNotation);
+    QGridLayout *l = new QGridLayout(d);
+    for (int i = 0; i < 3; ++i)
+    {
+        labels[i] = new QLabel("Масштабирование по " + prompts[i]);
+        edits[i] = new QLineEdit("1");
+        edits[i] -> setValidator(val);
+        l -> addWidget(labels[i], i, 0, 1, 1);
+        l -> addWidget(edits[i], i, 1, 1, 1);
+    }
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                         | QDialogButtonBox::Cancel);
+    l -> addWidget(buttonBox, 3, 0, 1, 2);
+    connect(buttonBox, &QDialogButtonBox::accepted, d, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, d, &QDialog::reject);
+    if (d->exec())
+    {
+        double scales[3];
+        for (int i = 0; i < 3; ++i)
+        {
+            bool ok;
+            scales[i] = edits[i]->text().replace(',', '.').toDouble(&ok);
+            if (!ok)
+            {
+                scales[i] = 1;
+            }
+        }
+        area -> TransformFigure(Matrix::GetScaleMatrix(scales[0], scales[1], scales[2]));
+        area -> repaint();
+        UpdateTransformationMatrix();
+    }
+    for (int i = 0; i < 3; ++i)
+    {
+        delete labels[i];
+        delete edits[i];
+        labels[i] = nullptr;
+        edits[i] = nullptr;
+    }
+    delete l;
+    delete buttonBox;
+    delete d;
+    delete val;
 }
 
 
