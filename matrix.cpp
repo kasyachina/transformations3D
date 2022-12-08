@@ -72,7 +72,7 @@ Matrix Matrix::operator=(Matrix const& other)
     }
     return *this;
 }
-Matrix Matrix::operator*(Matrix const& other)
+Matrix Matrix::operator*(Matrix const& other) const
 {
     assert(m == other.n);
     Matrix res(n, other.m);
@@ -116,6 +116,15 @@ Matrix Matrix::transpose() const
 Matrix Matrix::GetProjectionMatrix(MatrixType type)
 {
     //todo
+}
+Matrix Matrix::GetScaleMatrix(double scaleX, double scaleY, double scaleZ)
+{
+    Matrix res(4, 4);
+    res.array[0][0] = scaleX;
+    res.array[1][1] = scaleY;
+    res.array[2][2] = scaleZ;
+    res.array[1][1] = 1;
+    return res;
 }
 Matrix Matrix::GetAksonometricMatrix(double angleX, double angleY, double angleZ)
 {
