@@ -53,8 +53,11 @@ private:
     int zx = 0;
     int zy = 0;
     std::vector<LineSegmentData> segments;
-    QColor axisColor = Qt::black;
+    QColor XColor = Qt::blue;
+    QColor YColor = Qt::green;
+    QColor ZColor = Qt::magenta;
     QColor gridColor = Qt::gray;
+    QColor axisColor = Qt::black;
     QColor boxColor = Qt::gray;
     void recalculateAxis();
     void inline drawBox(QPainter(&p));

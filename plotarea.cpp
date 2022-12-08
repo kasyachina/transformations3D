@@ -130,16 +130,16 @@ void PlotArea::drawAxis(QPainter& p)
     QPointF center(zx, zy);
 
 
-    QPen axisPen(Qt::blue);
+    QPen axisPen(XColor);
     axisPen.setWidth(axis_width);
     p.setPen(axisPen);
     p.drawLine(Adjust(Point(-axis_length, 0, 0)), Adjust(Point(axis_length, 0, 0)));
 
-    axisPen.setColor(Qt::green);
+    axisPen.setColor(YColor);
     p.setPen(axisPen);
     p.drawLine(Adjust(Point(0, -axis_length, 0)), Adjust(Point(0, axis_length, 0)));
 
-    axisPen.setColor(Qt::magenta);
+    axisPen.setColor(ZColor);
     p.setPen(axisPen);
     p.drawLine(Adjust(Point(0, 0, -axis_length)), Adjust(Point(0, 0, axis_length)));
 
@@ -159,29 +159,24 @@ void PlotArea::drawTicks(QPainter& p)
     font.setPixelSize(12);
     p.setFont(font);
     //ticks x
-    int i = 0;
     int alignFlags = Qt::AlignRight | Qt::AlignTop;
     p.drawText(QRect{zx  - u + pixel_width, zy + pixel_width, u - pixel_width, u - pixel_width}, alignFlags, QString::number(0));
-    while(zx + (i + 2) * u < width())
+    for (int i = 1; i <= axis_length; ++i)
     {
-        i++;
-        p.drawLine(zx + i * u, zy + tick_length, zx + i * u, zy - tick_length);
-        p.drawLine(zx - i * u, zy + tick_length, zx - i * u, zy - tick_length);
-        if (zx + (i + 1) * u < width())
-            p.drawText(QRect{zx + (i - 1) * u + pixel_width, zy + pixel_width, u - pixel_width, u - pixel_width}, alignFlags, QString::number(i));
-        p.drawText(QRect{zx - (i + 1) * u + pixel_width, zy + pixel_width, u - pixel_width, u - pixel_width}, alignFlags, QString::number(-i));
+        p.drawLine(Adjust(Point(i, 0, -0.5)), Adjust(Point(i, 0, 0.5)));
+        p.drawLine(Adjust(Point(-i, 0, -0.5)), Adjust(Point(-i, 0, 0.5)));
     }
     //ticks y
-    i = 0;
-    //p.drawText(QRect{zx - u +  pixel_width, zy - u + pixel_width, u - pixel_width, u - pixel_width}, QString::number(0));
-    while(zy + (i + 2) * u < height())
+    for (int i = 1; i <= axis_length; ++i)
     {
-        i++;
-        p.drawLine(zx - tick_length, zy + i * u, zx + tick_length, zy + i * u);
-        p.drawLine(zx - tick_length, zy - i * u, zx + tick_length, zy - i * u);
-        if (zy - (i + 1) * u > 0)
-            p.drawText(QRect{zx  - u + pixel_width, zy - (i) * u +  pixel_width, u - pixel_width, u - pixel_width}, alignFlags, QString::number(i));
-        p.drawText(QRect{zx - u + pixel_width, zy + (i) * u + pixel_width, u - pixel_width, u - pixel_width}, alignFlags, QString::number(-i));
+        p.drawLine(Adjust(Point(0, i, -0.5)), Adjust(Point(0, i, 0.5)));
+        p.drawLine(Adjust(Point(0, -i, -0.5)), Adjust(Point(0, -i, 0.5)));
+    }
+    //ticks z
+    for (int i = 1; i <= axis_length; ++i)
+    {
+        p.drawLine(Adjust(Point(-0.5, 0, i)), Adjust(Point(0.5, 0, i)));
+        p.drawLine(Adjust(Point(-0.5, 0, -i)), Adjust(Point(0.5, 0, -i)));
     }
 }
 void PlotArea::drawArrows(QPainter& p)
@@ -232,8 +227,8 @@ void PlotArea::paintEvent(QPaintEvent*)
     QPainter pt(this);
     drawBox(pt);
     drawAxis(pt);
+    drawTicks(pt);
 
-    //drawTicks(pt);
     //drawArrows(pt);
     //drawGrid(pt);
     //drawLineSegments(pt);
