@@ -184,6 +184,18 @@ Matrix Matrix::GetIdentityMatrix()
     res.array[3][3] = 1;
     return res;
 }
+Matrix Matrix::GetTranslationMatrix(double translateX, double translateY, double translateZ)
+{
+    Matrix res(4, 4);
+    res.array[0][0] = 1;
+    res.array[1][1] = 1;
+    res.array[2][2] = 1;
+    res.array[0][3] = translateX;
+    res.array[1][3] = translateY;
+    res.array[2][3] = translateZ;
+    res.array[3][3] = 1;
+    return res;
+}
 Matrix Matrix::ComposeFromPoints(std::vector<Point> const& points)
 {
     int n = 4;
@@ -212,9 +224,9 @@ QString Matrix::ToQString() const
     QString ans;
     int width = 10;
     int precision;
-    for (int i = 0; i < 3; ++i)
+    for (int i = 0; i < 4; ++i)
     {
-        for (int j = 0; j < 3; ++j)
+        for (int j = 0; j < 4; ++j)
         {
             precision = 3;
             QString x = QString::number(array[i][j]);

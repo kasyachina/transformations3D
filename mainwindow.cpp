@@ -101,6 +101,7 @@ void MainWindow::on_OZRight_clicked()
 void MainWindow::on_ScaleButton_clicked()
 {
     QDialog *d = new QDialog();
+    d->setWindowTitle("Масштабирование");
     QString prompts[3] = {"x", "y", "z"};
     QLabel *labels[3];
     QLineEdit *edits[3];
@@ -162,3 +163,56 @@ void MainWindow::UpdateTransformationMatrix()
     Matrix transform = area -> GetTransformationMatrix();
     ui -> TransformationMatrix -> setText(transform.ToQString());
 }
+
+void MainWindow::on_TranslateButton_clicked()
+{
+    QDialog *d = new QDialog();
+    d->setWindowTitle("Перенос");
+    QString prompts[3] = {"x", "y", "z"};
+    QLabel *labels[3];
+    QLineEdit *edits[3];
+    QDoubleValidator *val = new QDoubleValidator(-9, 9, 2);
+    val -> setNotation(QDoubleValidator::StandardNotation);
+    QGridLayout *l = new QGridLayout(d);
+    for (int i = 0; i < 3; ++i)
+    {
+        labels[i] = new QLabel("Перенос по " + prompts[i]);
+        edits[i] = new QLineEdit("1");
+        edits[i] -> setValidator(val);
+        l -> addWidget(labels[i], i, 0, 1, 1);
+        l -> addWidget(edits[i], i, 1, 1, 1);
+    }
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                         | QDialogButtonBox::Cancel);
+    l -> addWidget(buttonBox, 3, 0, 1, 2);
+    connect(buttonBox, &QDialogButtonBox::accepted, d, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, d, &QDialog::reject);
+    if (d->exec())
+    {
+        double translations[3];
+        for (int i = 0; i < 3; ++i)
+        {
+            bool ok;
+            translations[i] = edits[i]->text().replace(',', '.').toDouble(&ok);
+            if (!ok)
+            {
+                translations[i] = 1;
+            }
+        }
+        area -> TransformFigure(Matrix::GetTranslationMatrix(translations[0], translations[1], translations[2]));
+        area -> repaint();
+        UpdateTransformationMatrix();
+    }
+    for (int i = 0; i < 3; ++i)
+    {
+        delete labels[i];
+        delete edits[i];
+        labels[i] = nullptr;
+        edits[i] = nullptr;
+    }
+    delete l;
+    delete buttonBox;
+    delete d;
+    delete val;
+}
+

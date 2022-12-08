@@ -34,6 +34,8 @@ private slots:
 
     void on_RevertButton_clicked();
 
+    void on_TranslateButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     PlotArea *area = nullptr;
