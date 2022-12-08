@@ -1,5 +1,6 @@
 #include "matrix.h"
 #include <cassert>
+#include <cmath>
 
 
 Point::Point(double x, double y, double z)
@@ -104,39 +105,29 @@ Matrix Matrix::transpose() const
     }
     return res;
 }
-Matrix Matrix::MatrixFactoryWithoutParameters(MatrixType type)
+Matrix Matrix::GetProjectionMatrix(MatrixType type)
 {
-    Matrix ans(4, 4);
-    switch(type)
-    {
-        case MatrixType::Dimetric:
-        /*ans.array[0][0] = 0.949;
-        ans.array[0][1] = -0.187;
-        ans.array[0][2] = 0;
-
-        ans.array[1][0] = 0;
-        ans.array[1][1] = 0.806;
-        ans.array[1][2] = 0;
-
-        ans.array[2][0] = -0.316;
-        ans.array[2][1] = -0.562;
-        ans.array[2][2] = 0;*/
-        ans.array[0][0] = 0.935;
-        ans.array[0][1] = -0.118;
-        ans.array[0][2] = 0.333;
-
-        ans.array[1][0] = 0;
-        ans.array[1][1] = 0.943;
-        ans.array[1][2] = 0.333;
-
-        ans.array[2][0] = -0.354;
-        ans.array[2][1] = 0.312;
-        ans.array[2][2] = 0.882;
-
-        ans.array[3][3] = 1;
-    }
-    return ans;
+    //todo
 }
+Matrix Matrix::GetAksonometricMatrix(double angleX, double angleY, double angleZ)
+{
+    Matrix res(4, 4);
+    res.array[0][0] = cos(angleY) * cos(angleZ) - sin(angleX) * sin(angleY) * sin (angleZ);
+    res.array[0][1] = cos(angleY) * sin(angleZ) + sin(angleX) * sin(angleY) * cos (angleZ);
+    res.array[0][2] = 0;
+
+    res.array[1][0] = -cos(angleX) * sin(angleZ);
+    res.array[1][1] = cos(angleX) * cos(angleZ);
+    res.array[1][2] = 0;
+
+    res.array[2][0] = sin(angleY) * cos(angleZ) + sin(angleX) * cos(angleY) * sin(angleZ);
+    res.array[2][1] = sin(angleY) * sin(angleZ) - sin(angleX) * cos(angleY) * cos(angleZ);
+    res.array[2][2] = 0;
+
+    res.array[3][3] = 1;
+    return res;
+}
+
 Matrix Matrix::ComposeFromPoints(std::vector<Point> const& points)
 {
     int n = 4;

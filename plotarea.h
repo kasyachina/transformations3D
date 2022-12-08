@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QWidget>
 #include <vector>
+#include "matrix.h"
 
 class LineSegmentData
 {
@@ -32,6 +33,10 @@ public:
     void SetUnit(int nu);
     int getUnit() const;
 private:
+    double angleX = 19.47 / 180 * 3.14;
+    double angleY = -20.7 / 180 * 3.14;
+    double angleZ = 0;
+    Matrix AksonometricMatrix;
     int u; // unit size
     int tick_length = 4;
     int grid_line_width = 1;

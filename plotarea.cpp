@@ -42,7 +42,7 @@ QColor LineSegmentData::color() const
     return _color;
 }
 
-PlotArea::PlotArea(QWidget *parent):QWidget(parent)
+PlotArea::PlotArea(QWidget *parent):QWidget(parent), AksonometricMatrix(Matrix::GetAksonometricMatrix(angleX, angleY, angleZ))
 {
     u = std::min(width(), height()) / 20;
 }
@@ -84,6 +84,9 @@ void PlotArea::drawAxis(QPainter& p)
     QPen axisPen(axisColor);
     axisPen.setWidth(axis_width);
     p.setPen(axisPen);
+    Matrix axis = Matrix::ComposeFromPoints({Point(1, 0, 0), Point(0, 1, 0), Point(0, 0, 1)});
+    axis = axis * AksonometricMatrix;
+
     p.drawLine(box_offset, zy, width() - box_offset, zy);
     p.drawLine(zx, box_offset, zx, height() - box_offset);
 }
@@ -167,10 +170,10 @@ void PlotArea::paintEvent(QPaintEvent*)
     QPainter pt(this);
     drawBox(pt);
     drawAxis(pt);
-    drawTicks(pt);
-    drawArrows(pt);
-    drawGrid(pt);
-    drawLineSegments(pt);
+    //drawTicks(pt);
+    //drawArrows(pt);
+    //drawGrid(pt);
+    //drawLineSegments(pt);
 }
 int PlotArea::getUnit() const
 {

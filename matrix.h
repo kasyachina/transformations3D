@@ -19,17 +19,14 @@ class Matrix
 public:
     enum class MatrixType
     {
-        Translate,
-        Rotate,
-        Scale,
         ProjectionOXY,
         ProjectionOXZ,
         ProjectionOYZ,
-        Dimetric,
     };
-    static Matrix MatrixFactoryWithoutParameters(MatrixType type);
-    static Matrix MatrixFactoryWithParameters(MatrixType type, std::vector<double> const& params);
+    static Matrix GetProjectionMatrix(MatrixType type);
+    static Matrix GetAksonometricMatrix(double angleX, double angleY, double angleZ);
     static Matrix ComposeFromPoints(std::vector<Point> const& points);
+    static std::vector<Point> DecomposeToPoints(Matrix const& matr);
     Matrix operator=(Matrix&& other);
     Matrix operator=(Matrix const& other);
     Matrix operator*(Matrix const& other);
