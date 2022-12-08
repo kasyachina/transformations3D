@@ -163,20 +163,20 @@ void PlotArea::drawTicks(QPainter& p)
     p.drawText(QRect{zx  - u + pixel_width, zy + pixel_width, u - pixel_width, u - pixel_width}, alignFlags, QString::number(0));
     for (int i = 1; i <= axis_length; ++i)
     {
-        p.drawLine(Adjust(Point(i, 0, -0.5)), Adjust(Point(i, 0, 0.5)));
-        p.drawLine(Adjust(Point(-i, 0, -0.5)), Adjust(Point(-i, 0, 0.5)));
+        p.drawLine(Adjust(Point(i, 0, -tick_length / 2)), Adjust(Point(i, 0, tick_length / 2)));
+        p.drawLine(Adjust(Point(-i, 0, -tick_length / 2)), Adjust(Point(-i, 0, tick_length / 2)));
     }
     //ticks y
     for (int i = 1; i <= axis_length; ++i)
     {
-        p.drawLine(Adjust(Point(0, i, -0.5)), Adjust(Point(0, i, 0.5)));
-        p.drawLine(Adjust(Point(0, -i, -0.5)), Adjust(Point(0, -i, 0.5)));
+        p.drawLine(Adjust(Point(0, i, -tick_length / 2)), Adjust(Point(0, i, tick_length / 2)));
+        p.drawLine(Adjust(Point(0, -i, -tick_length / 2)), Adjust(Point(0, -i, tick_length / 2)));
     }
     //ticks z
     for (int i = 1; i <= axis_length; ++i)
     {
-        p.drawLine(Adjust(Point(-0.5, 0, i)), Adjust(Point(0.5, 0, i)));
-        p.drawLine(Adjust(Point(-0.5, 0, -i)), Adjust(Point(0.5, 0, -i)));
+        p.drawLine(Adjust(Point(-tick_length / 2, 0, i)), Adjust(Point(tick_length / 2, 0, i)));
+        p.drawLine(Adjust(Point(-tick_length / 2, 0, -i)), Adjust(Point(tick_length / 2, 0, -i)));
     }
 }
 void PlotArea::drawArrows(QPainter& p)
@@ -187,21 +187,30 @@ void PlotArea::drawArrows(QPainter& p)
     p.setRenderHint(QPainter::RenderHint::Antialiasing);
     //arrow x
     QPainterPath px;
-    px.moveTo(width() - u - 1, zy + 2 * tick_length);
-    px.lineTo(width() - u - 1, zy - 2 * tick_length);
-    px.lineTo(width() - 1, zy);
-    px.lineTo(width() - u - 1, zy + 2 * tick_length);
+    px.moveTo(Adjust(Point(axis_length, 0, -tick_length / 2)));
+    px.lineTo(Adjust(Point(axis_length + 1, 0, 0)));
+    px.lineTo(Adjust(Point(axis_length, 0, tick_length / 2)));
+    px.lineTo(Adjust(Point(axis_length, 0, -tick_length / 2)));
     p.drawPath(px);
-    p.drawText(QRect{width() - u / 2 - 1, zy + u / 2, u, u}, "X");
+    p.drawText(Adjust(Point(axis_length + 1.5, 1, 0)), "X");
     //arrow y
     QPainterPath py;
-    py.moveTo(zx + 2 * tick_length, u + 1);
-    py.lineTo(zx - 2 * tick_length, u + 1);
-    py.lineTo(zx, 1);
-    py.lineTo(zx + 2 * tick_length, u + 1);
+    py.moveTo(Adjust(Point(0, axis_length, -tick_length / 2)));
+    py.lineTo(Adjust(Point(0, axis_length + 1, 0)));
+    py.lineTo(Adjust(Point(0, axis_length, tick_length / 2)));
+    py.lineTo(Adjust(Point(0, axis_length, -tick_length / 2)));
     p.drawPath(py);
-    p.drawText(QRect{zx + u / 2, u / 2, u, u}, "Y");
+    p.drawText(Adjust(Point(0, axis_length + 1.5, 0)), "Y");
+    //arrow z
+    QPainterPath pz;
+    pz.moveTo(Adjust(Point(-tick_length / 2, 0, axis_length)));
+    pz.lineTo(Adjust(Point(0, 0, axis_length + 1)));
+    pz.lineTo(Adjust(Point(tick_length / 2, 0, axis_length)));
+    pz.lineTo(Adjust(Point(-tick_length / 2, 0, axis_length)));
+    p.drawPath(pz);
+    p.drawText(Adjust(Point(0, 1, axis_length + 1.5)), "Z");
 }
+
 void PlotArea::drawLineSegments(QPainter& p)
 {
     for (const auto& segmentData : segments)
@@ -228,8 +237,7 @@ void PlotArea::paintEvent(QPaintEvent*)
     drawBox(pt);
     drawAxis(pt);
     drawTicks(pt);
-
-    //drawArrows(pt);
+    drawArrows(pt);
     //drawGrid(pt);
     //drawLineSegments(pt);
 }

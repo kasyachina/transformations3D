@@ -42,7 +42,7 @@ private:
     std::vector<Point> axis;
     Matrix AksonometricMatrix;
     int u; // unit size
-    int tick_length = 4;
+    double tick_length = 1;
     int grid_line_width = 1;
     int axis_width = 2;
     int box_offset = 1;
