@@ -207,6 +207,25 @@ std::vector<Point> Matrix::DecomposeToPoints(Matrix const& matr)
     }
     return ans;
 }
+QString Matrix::ToQString() const
+{
+    QString ans;
+    int width = 7;
+    for (int i = 0; i < 3; ++i)
+    {
+        for (int j = 0; j < 3; ++j)
+        {
+            QString x = QString::number(array[i][j]);
+            ans += x;
+            for (int k = x.size(); k < width; ++k)
+            {
+                ans += " ";
+            }
+        }
+        ans += "\n";
+    }
+    return ans;
+}
 void Matrix::AllocateMemory(int _n, int _m)
 {
     n = _n;

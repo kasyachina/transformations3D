@@ -204,6 +204,10 @@ void PlotArea::ResetTransform()
 {
     TransformationMatrix = Matrix::GetIdentityMatrix();
 }
+Matrix PlotArea::GetTransformationMatrix() const
+{
+    return TransformationMatrix;
+}
 void PlotArea::SetFigurePoints(const std::vector<Point>& data)
 {
     figure = data;

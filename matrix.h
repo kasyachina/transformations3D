@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <QPointF>
+#include <QString>
 
 class Point
 {
@@ -40,6 +41,7 @@ public:
     static Matrix GetIdentityMatrix();
     static Matrix ComposeFromPoints(std::vector<Point> const& points);
     static std::vector<Point> DecomposeToPoints(Matrix const& matr);
+    QString ToQString() const;
     Matrix operator=(Matrix&& other);
     Matrix operator=(Matrix const& other);
     Matrix operator*(Matrix const& other) const;

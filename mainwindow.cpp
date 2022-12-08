@@ -96,3 +96,7 @@ void MainWindow::on_RevertButton_clicked()
     area -> repaint();
 }
 
+void MainWindow::UpdateTransformationMatrix()
+{
+    Matrix transform = area -> GetTransformationMatrix();
+}

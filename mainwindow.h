@@ -38,5 +38,6 @@ private:
     Ui::MainWindow *ui;
     PlotArea *area = nullptr;
     double rotationAngle = 0.15;
+    void UpdateTransformationMatrix();
 };
 #endif // MAINWINDOW_H

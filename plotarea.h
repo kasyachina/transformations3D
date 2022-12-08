@@ -14,6 +14,7 @@ public:
     void SetFigurePoints(const std::vector<Point>& data);
     void TransformFigure(Matrix const& transform);
     void ResetTransform();
+    Matrix GetTransformationMatrix() const;
     QPointF Adjust(const Point& p);
     void Clear();
     void SetUnit(int nu);
