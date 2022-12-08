@@ -125,6 +125,7 @@ void MainWindow::on_ScaleButton_clicked()
     }
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
                                          | QDialogButtonBox::Cancel);
+    buttonBox -> setStyleSheet("color: black");
     l -> addWidget(buttonBox, 3, 0, 1, 2);
     connect(buttonBox, &QDialogButtonBox::accepted, d, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, d, &QDialog::reject);
@@ -194,6 +195,7 @@ void MainWindow::on_TranslateButton_clicked()
     }
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
                                          | QDialogButtonBox::Cancel);
+    buttonBox -> setStyleSheet("color: black");
     l -> addWidget(buttonBox, 3, 0, 1, 2);
     connect(buttonBox, &QDialogButtonBox::accepted, d, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, d, &QDialog::reject);
