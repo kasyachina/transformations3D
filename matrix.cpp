@@ -142,6 +142,15 @@ Matrix Matrix::ComposeFromPoints(std::vector<Point> const& points)
     }
     return res;
 }
+std::vector<Point> Matrix::DecomposeToPoints(Matrix const& matr)
+{
+    std::vector<Point> ans;
+    for (int i = 0; i < matr.m; ++i)
+    {
+         ans.push_back(Point(matr.array[0][i], matr.array[1][i], matr.array[2][i], matr.array[3][i]));
+    }
+    return ans;
+}
 void Matrix::AllocateMemory(int _n, int _m)
 {
     n = _n;
