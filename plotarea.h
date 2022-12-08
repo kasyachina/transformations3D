@@ -6,28 +6,12 @@
 #include <vector>
 #include "matrix.h"
 
-class LineSegmentData
-{
-public:
-    explicit LineSegmentData(const QPointF& p1, const QPointF& p2, const QColor& color);
-    qreal x1() const;
-    qreal x2() const;
-    qreal y1() const;
-    qreal y2() const;
-    QPointF p1() const;
-    QPointF p2() const;
-    QColor color() const;
-private:
-    QPointF _p1, _p2;
-    QColor _color;
-};
-
 class PlotArea : public QWidget
 {
     Q_OBJECT
 public:
     explicit PlotArea(QWidget *parent = nullptr);
-    void AddLineSegment(const LineSegmentData& data);
+    void SetFigurePoints(const std::vector<Point>& data);
     QPointF Adjust(const Point& p);
     void Clear();
     void SetUnit(int nu);
@@ -55,7 +39,7 @@ private:
     int axis_length = 20;
     int zx = 0;
     int zy = 0;
-    std::vector<LineSegmentData> segments;
+    std::vector<Point> figure;
     QColor XColor = Qt::blue;
     QColor YColor = Qt::green;
     QColor ZColor = Qt::magenta;
@@ -68,7 +52,7 @@ private:
     void inline drawAxis(QPainter& p);
     void inline drawTicks(QPainter& p);
     void inline drawArrows(QPainter& p);
-    void inline drawLineSegments(QPainter& p);
+    void inline drawFigure(QPainter& p);
     void paintEvent(QPaintEvent* event) override;
     virtual void mousePressEvent(QMouseEvent* event) override;
     virtual void mouseReleaseEvent(QMouseEvent* event) override;

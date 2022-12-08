@@ -11,6 +11,7 @@ public:
     Point(double x, double y, double z, double w = 1);
     double getParameter(int index) const;
     QPointF toQPoint() const;
+    Point pointBehind() const;
 private:
     double data[4];
 };

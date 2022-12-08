@@ -4,45 +4,6 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 
-LineSegmentData::LineSegmentData(const QPointF& p1, const QPointF& p2, const QColor& color)
-{
-    _p1 = p1;
-    _p2 = p2;
-    _color = color;
-}
-
-qreal LineSegmentData::x1() const
-{
-    return _p1.x();
-}
-
-qreal LineSegmentData::x2() const
-{
-    return _p2.x();
-}
-
-qreal LineSegmentData::y1() const
-{
-    return _p1.y();
-}
-
-qreal LineSegmentData::y2() const
-{
-    return _p2.y();
-}
-QPointF LineSegmentData::p1() const
-{
-    return _p1;
-}
-QPointF LineSegmentData::p2() const
-{
-    return _p2;
-}
-QColor LineSegmentData::color() const
-{
-    return _color;
-}
-
 PlotArea::PlotArea(QWidget *parent):QWidget(parent), AksonometricMatrix(Matrix::GetAksonometricMatrix(angleX, angleY, angleZ))
 {
     u = std::min(width(), height()) / 20;
@@ -211,21 +172,35 @@ void PlotArea::drawArrows(QPainter& p)
     p.drawText(Adjust(Point(0, 1, axis_length + 1.5)), "Z");
 }
 
-void PlotArea::drawLineSegments(QPainter& p)
+void PlotArea::drawFigure(QPainter& p)
 {
-    for (const auto& segmentData : segments)
+    if (!figure.empty())
     {
-        p.setPen(QPen(segmentData.color(), line_width));
-        //p.drawLine(Adjust(segmentData.p1()), Adjust(segmentData.p2()));
+        QPainterPath ph1;
+        QPainterPath ph2;
+        p.setPen(QPen(Qt::black, line_width));
+        p.setBrush(Qt::NoBrush);
+        int shift = figure.size() / 2;
+        ph1.moveTo(Adjust(figure[0]));
+        ph2.moveTo(Adjust(figure[shift]));
+        p.drawLine(Adjust(figure[0]), Adjust(figure[0 + shift]));
+        for (size_t i = 1; i < figure.size() / 2; ++i)
+        {
+            ph1.lineTo(Adjust(figure[i]));
+            ph2.lineTo(Adjust(figure[i + shift]));
+            p.drawLine(Adjust(figure[i]), Adjust(figure[i + shift]));
+        }
+        p.drawPath(ph1);
+        p.drawPath(ph2);
     }
+}
+void PlotArea::SetFigurePoints(const std::vector<Point>& data)
+{
+    figure = data;
 }
 void PlotArea::Clear()
 {
-    segments.clear();
-}
-void PlotArea::AddLineSegment(const LineSegmentData& data)
-{
-    segments.push_back(data);
+    figure.clear();
 }
 void PlotArea::paintEvent(QPaintEvent*)
 {
@@ -238,8 +213,8 @@ void PlotArea::paintEvent(QPaintEvent*)
     drawAxis(pt);
     drawTicks(pt);
     drawArrows(pt);
+    drawFigure(pt);
     //drawGrid(pt);
-    //drawLineSegments(pt);
 }
 void PlotArea::mousePressEvent(QMouseEvent* event)
 {
@@ -259,13 +234,12 @@ void PlotArea::mouseMoveEvent(QMouseEvent* event)
         repaint();
     }
 }
-void PlotArea::mouseReleaseEvent(QMouseEvent* event)
+void PlotArea::mouseReleaseEvent(QMouseEvent*)
 {
     mousePressed = false;
 }
 void PlotArea::wheelEvent(QWheelEvent* event)
 {
-    qDebug() << event->angleDelta();
     SetUnit(u + delta_unit * (2 * (event->angleDelta().y() > 0) - 1));
     repaint();
 }

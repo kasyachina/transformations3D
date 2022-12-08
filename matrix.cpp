@@ -14,6 +14,10 @@ QPointF Point::toQPoint() const
 {
     return QPointF(data[0] / data[3], data[1] / data[3]);
 }
+Point Point::pointBehind() const
+{
+    return Point(data[0], data[1], data[2] - 1);
+}
 double Point::getParameter(int index) const
 {
     return data[index];
