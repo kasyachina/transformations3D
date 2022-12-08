@@ -46,9 +46,17 @@ QColor LineSegmentData::color() const
 PlotArea::PlotArea(QWidget *parent):QWidget(parent), AksonometricMatrix(Matrix::GetAksonometricMatrix(angleX, angleY, angleZ))
 {
     u = std::min(width(), height()) / 20;
+    recalculateAxis();
 }
-QPointF PlotArea::Adjust(const QPointF& p)
+
+void PlotArea::recalculateAxis()
 {
+    axis = Matrix::DecomposeToPoints(AksonometricMatrix * Matrix::ComposeFromPoints({Point(1, 0, 0), Point(0, 1, 0), Point(0, 0, 1)}));
+}
+QPointF PlotArea::Adjust(const Point& _p)
+{
+    QPointF p = axis[0].toQPoint() * _p.getParameter(0) + axis[1].toQPoint() * _p.getParameter(1) + axis[2].toQPoint() * _p.getParameter(2);
+
     return QPointF(zx + p.x() * u, zy - p.y() * u);
 }
 void PlotArea::drawBox(QPainter& p)
@@ -82,18 +90,65 @@ void PlotArea::drawGrid(QPainter& p)
 }
 void PlotArea::drawAxis(QPainter& p)
 {
-    QPen axisPen(axisColor);
+    /*auto f = [this, &p](Point const& point, QColor color){
+        double vx = point.getParameter(0);
+        double vy = point.getParameter(1);
+        double x = 0;
+        double y = 0;
+        if (vx == 0)
+        {
+            x = width() / 2;
+            y = 0;
+        }
+        else
+        {
+            double t = -zx / vx;
+            y = zy + vy * t;
+            if (y < 0 || y > height())
+            {
+                if (vy == 0)
+                {
+                    y = zy;
+                    x = 0;
+                }
+                else
+                {
+                    t = -zy / vy;
+                    y = 0;
+                    x = zx + vx * t;
+                }
+            }
+        }
+        QPen axisPen(color);
+        axisPen.setWidth(axis_width);
+        p.setPen(axisPen);
+        p.drawLine(x, height() - y, width() - x, y);
+    };*/
+    //f(axis[0], Qt::blue);
+    //f(axis[1], Qt::green);
+    //f(axis[2], Qt::magenta);
+    QPointF center(zx, zy);
+
+
+    QPen axisPen(Qt::blue);
     axisPen.setWidth(axis_width);
     p.setPen(axisPen);
-    Matrix axis = Matrix::ComposeFromPoints({Point(1, 0, 0), Point(0, 1, 0), Point(0, 0, 1)});
-    axis = AksonometricMatrix * axis;
-    std::cout << axis << "\n";
-    std::vector<Point> axisVectors = Matrix::DecomposeToPoints(axis);
-    QPointF center(zx, zy);
-    p.drawLine(center, Adjust(axisVectors[0].toQPoint()));
-    p.drawLine(center, Adjust(axisVectors[1].toQPoint()));
-    p.drawLine(center, Adjust(axisVectors[2].toQPoint()));
-    //p.drawLine(zx, box_offset, zx, height() - box_offset);
+    p.drawLine(Adjust(Point(-axis_length, 0, 0)), Adjust(Point(axis_length, 0, 0)));
+
+    axisPen.setColor(Qt::green);
+    p.setPen(axisPen);
+    p.drawLine(Adjust(Point(0, -axis_length, 0)), Adjust(Point(0, axis_length, 0)));
+
+    axisPen.setColor(Qt::magenta);
+    p.setPen(axisPen);
+    p.drawLine(Adjust(Point(0, 0, -axis_length)), Adjust(Point(0, 0, axis_length)));
+
+    axisPen.setColor(axisColor);
+    p.setPen(axisPen);
+    p.drawLine(center, Adjust({1, 0, 0}));
+    p.drawLine(center, Adjust({0, 1, 0}));
+    p.drawLine(center, Adjust({0, 0, 1}));
+
 }
 void PlotArea::drawTicks(QPainter& p)
 {
@@ -157,7 +212,7 @@ void PlotArea::drawLineSegments(QPainter& p)
     for (const auto& segmentData : segments)
     {
         p.setPen(QPen(segmentData.color(), line_width));
-        p.drawLine(Adjust(segmentData.p1()), Adjust(segmentData.p2()));
+        //p.drawLine(Adjust(segmentData.p1()), Adjust(segmentData.p2()));
     }
 }
 void PlotArea::Clear()
@@ -172,8 +227,9 @@ void PlotArea::paintEvent(QPaintEvent*)
 {
     zx = width() / 2;
     zy = height() / 2;
-    QPainter pt(this);
     AksonometricMatrix = Matrix::GetAksonometricMatrix(angleX, angleY, angleZ);
+    recalculateAxis();
+    QPainter pt(this);
     drawBox(pt);
     drawAxis(pt);
 

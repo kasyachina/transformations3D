@@ -13,14 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     setStyleSheet("background-color: white");
     g -> addWidget(area);
     centralWidget()->setLayout(g);
-
-
-    double x = 19.47 / 180 * 3.14;
-    double y = -20.7 / 180 * 3.14;
-    double z = 0;
-    Matrix mat = Matrix::GetAksonometricMatrix(x, y, z);
-    Matrix axes = Matrix::ComposeFromPoints({Point(1, 0, 0), Point(0, 1, 0), Point(0, 0, 1)});
-    std::cout << mat << "\n" << axes << "\n" << mat * axes << "\n";
 }
 
 MainWindow::~MainWindow()

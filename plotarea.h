@@ -28,7 +28,7 @@ class PlotArea : public QWidget
 public:
     explicit PlotArea(QWidget *parent = nullptr);
     void AddLineSegment(const LineSegmentData& data);
-    QPointF Adjust(const QPointF& p);
+    QPointF Adjust(const Point& p);
     void Clear();
     void SetUnit(int nu);
     int getUnit() const;
@@ -39,6 +39,7 @@ private:
     double angleY = -20.7 / 180 * 3.14;
     double angleZ = 0;
     double angleShift = 0.005;
+    std::vector<Point> axis;
     Matrix AksonometricMatrix;
     int u; // unit size
     int tick_length = 4;
@@ -48,12 +49,14 @@ private:
     int box_width = 1;
     int pixel_width = 1;
     int line_width = 3;
+    int axis_length = 20;
     int zx = 0;
     int zy = 0;
     std::vector<LineSegmentData> segments;
     QColor axisColor = Qt::black;
     QColor gridColor = Qt::gray;
     QColor boxColor = Qt::gray;
+    void recalculateAxis();
     void inline drawBox(QPainter(&p));
     void inline drawGrid(QPainter& p);
     void inline drawAxis(QPainter& p);
