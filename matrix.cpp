@@ -3,12 +3,16 @@
 #include <cmath>
 
 
-Point::Point(double x, double y, double z)
+Point::Point(double x, double y, double z, double w)
 {
     data[0] = x;
     data[1] = y;
     data[2] = z;
-    data[3] = 1;
+    data[3] = w;
+}
+QPointF Point::toQPoint() const
+{
+    return QPointF(data[0] / data[3], data[1] / data[3]);
 }
 double Point::getParameter(int index) const
 {
@@ -47,10 +51,10 @@ Matrix Matrix::operator=(Matrix&& other)
         FreeMemory();
         array = other.array;
         other.array = nullptr;
-        other.n = 0;
-        other.m = 0;
         n = other.n;
         m = other.m;
+        other.n = 0;
+        other.m = 0;
     }
     return *this;
 }
@@ -113,16 +117,16 @@ Matrix Matrix::GetAksonometricMatrix(double angleX, double angleY, double angleZ
 {
     Matrix res(4, 4);
     res.array[0][0] = cos(angleY) * cos(angleZ) - sin(angleX) * sin(angleY) * sin (angleZ);
-    res.array[0][1] = cos(angleY) * sin(angleZ) + sin(angleX) * sin(angleY) * cos (angleZ);
-    res.array[0][2] = 0;
+    res.array[1][0] = cos(angleY) * sin(angleZ) + sin(angleX) * sin(angleY) * cos (angleZ);
+    res.array[2][0] = -cos(angleX) * sin(angleY);
 
-    res.array[1][0] = -cos(angleX) * sin(angleZ);
+    res.array[0][1] = -cos(angleX) * sin(angleZ);
     res.array[1][1] = cos(angleX) * cos(angleZ);
-    res.array[1][2] = 0;
+    res.array[2][1] = sin(angleX);
 
-    res.array[2][0] = sin(angleY) * cos(angleZ) + sin(angleX) * cos(angleY) * sin(angleZ);
-    res.array[2][1] = sin(angleY) * sin(angleZ) - sin(angleX) * cos(angleY) * cos(angleZ);
-    res.array[2][2] = 0;
+    res.array[0][2] = sin(angleY) * cos(angleZ) + sin(angleX) * cos(angleY) * sin(angleZ);
+    res.array[1][2] = sin(angleY) * sin(angleZ) - sin(angleX) * cos(angleY) * cos(angleZ);
+    res.array[2][2] = cos(angleX) * cos(angleY);
 
     res.array[3][3] = 1;
     return res;

@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     QGridLayout *g = new QGridLayout;
     area = new PlotArea;
+    setStyleSheet("background-color: white");
     g -> addWidget(area);
     centralWidget()->setLayout(g);
 
@@ -19,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     double z = 0;
     Matrix mat = Matrix::GetAksonometricMatrix(x, y, z);
     Matrix axes = Matrix::ComposeFromPoints({Point(1, 0, 0), Point(0, 1, 0), Point(0, 0, 1)});
-    std::cout << mat << "\n" << axes << "\n" << mat.transpose() * axes;
+    std::cout << mat << "\n" << axes << "\n" << mat * axes << "\n";
 }
 
 MainWindow::~MainWindow()

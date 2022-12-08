@@ -33,6 +33,8 @@ public:
     void SetUnit(int nu);
     int getUnit() const;
 private:
+    bool mousePressed = false;
+    QPointF lastMousePos;
     double angleX = 19.47 / 180 * 3.14;
     double angleY = -20.7 / 180 * 3.14;
     double angleZ = 0;
@@ -58,6 +60,9 @@ private:
     void inline drawArrows(QPainter& p);
     void inline drawLineSegments(QPainter& p);
     void paintEvent(QPaintEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
 };
 
 #endif // PLOTAREA_H

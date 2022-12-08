@@ -85,10 +85,14 @@ void PlotArea::drawAxis(QPainter& p)
     axisPen.setWidth(axis_width);
     p.setPen(axisPen);
     Matrix axis = Matrix::ComposeFromPoints({Point(1, 0, 0), Point(0, 1, 0), Point(0, 0, 1)});
-    axis = axis * AksonometricMatrix;
-
-    p.drawLine(box_offset, zy, width() - box_offset, zy);
-    p.drawLine(zx, box_offset, zx, height() - box_offset);
+    axis = AksonometricMatrix * axis;
+    std::cout << axis << "\n";
+    std::vector<Point> axisVectors = Matrix::DecomposeToPoints(axis);
+    QPointF center(zx, zy);
+    p.drawLine(center, Adjust(axisVectors[0].toQPoint()));
+    p.drawLine(center, Adjust(axisVectors[1].toQPoint()));
+    p.drawLine(center, Adjust(axisVectors[2].toQPoint()));
+    //p.drawLine(zx, box_offset, zx, height() - box_offset);
 }
 void PlotArea::drawTicks(QPainter& p)
 {

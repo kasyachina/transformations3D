@@ -3,12 +3,14 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <QPointF>
 
 class Point
 {
 public:
     Point(double x, double y, double z, double w = 1);
     double getParameter(int index) const;
+    QPointF toQPoint() const;
 private:
     double data[4];
 };
@@ -40,8 +42,8 @@ private:
     void FreeMemory();
     void AllocateMemory(int n, int m);
     void CopyValues(Matrix const& other);
-    double **array;
-    int n, m;
+    double **array = nullptr;
+    int n = 0, m = 0;
 };
 
 #endif // MATRIX_H
