@@ -126,6 +126,37 @@ Matrix Matrix::GetScaleMatrix(double scaleX, double scaleY, double scaleZ)
     res.array[1][1] = 1;
     return res;
 }
+Matrix Matrix::GetRotationMatrix(RotationType type, double angle)
+{
+    Matrix res(4, 4);
+    switch(type)
+    {
+    case RotationType::RotationOX:
+        res.array[0][0] = 1;
+        res.array[1][1] = cos(angle);
+        res.array[1][2] = -sin(angle);
+        res.array[2][1] = sin(angle);
+        res.array[2][2] = cos(angle);
+        break;
+
+    case RotationType::RotationOY:
+        res.array[0][0] = cos(angle);
+        res.array[0][2] = sin(angle);
+        res.array[2][0] = -sin(angle);
+        res.array[2][2] = cos(angle);
+        res.array[1][1] = 1;
+        break;
+    case RotationType::RotationOZ:
+        res.array[0][0] = cos(angle);
+        res.array[0][1] = -sin(angle);
+        res.array[1][0] = sin(angle);
+        res.array[1][1] = cos(angle);
+        res.array[2][2] = 1;
+        break;
+    }
+    res.array[3][3] = 1;
+    return res;
+}
 Matrix Matrix::GetAksonometricMatrix(double angleX, double angleY, double angleZ)
 {
     Matrix res(4, 4);
