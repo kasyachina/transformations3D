@@ -32,7 +32,7 @@ public:
     static std::vector<Point> DecomposeToPoints(Matrix const& matr);
     Matrix operator=(Matrix&& other);
     Matrix operator=(Matrix const& other);
-    Matrix operator*(Matrix const& other);
+    Matrix operator*(Matrix const& other) const;
     Matrix transpose() const;
     Matrix(Matrix const& other);
     Matrix(Matrix&& other);

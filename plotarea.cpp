@@ -194,6 +194,10 @@ void PlotArea::drawFigure(QPainter& p)
         p.drawPath(ph2);
     }
 }
+void PlotArea::TransformFigure(Matrix const& transform)
+{
+    figure = Matrix::DecomposeToPoints(transform * Matrix::ComposeFromPoints(figure));
+}
 void PlotArea::SetFigurePoints(const std::vector<Point>& data)
 {
     figure = data;
