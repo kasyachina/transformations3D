@@ -210,16 +210,29 @@ std::vector<Point> Matrix::DecomposeToPoints(Matrix const& matr)
 QString Matrix::ToQString() const
 {
     QString ans;
-    int width = 7;
+    int width = 10;
+    int precision;
     for (int i = 0; i < 3; ++i)
     {
         for (int j = 0; j < 3; ++j)
         {
+            precision = 3;
             QString x = QString::number(array[i][j]);
-            ans += x;
-            for (int k = x.size(); k < width; ++k)
+            int k = 0;
+            while(k < x.size() && x[k] != '.' && x[k] != ',')
+            {
+                ans += x[k];
+                ++k;
+            }
+            while(precision-- && k < x.size())
+            {
+                ans += x[k];
+                ++k;
+            }
+            while(k < width)
             {
                 ans += " ";
+                ++k;
             }
         }
         ans += "\n";
