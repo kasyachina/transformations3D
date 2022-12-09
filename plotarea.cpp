@@ -274,7 +274,14 @@ void PlotArea::mouseReleaseEvent(QMouseEvent*)
 }
 void PlotArea::wheelEvent(QWheelEvent* event)
 {
-    SetUnit(u + delta_unit * (2 * (event->angleDelta().y() > 0) - 1));
+    if (event -> device() -> type() == QInputDevice::DeviceType::TouchPad)
+    {
+        //
+    }
+    else
+    {
+        SetUnit(u + delta_unit * (2 * (event->angleDelta().y() > 0) - 1));
+    }
     repaint();
 }
 int PlotArea::getUnit() const
